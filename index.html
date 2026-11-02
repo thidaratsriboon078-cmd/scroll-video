@@ -15,11 +15,11 @@
 
 body {
   background: #000;
-  font-family: Arial, sans-serif;
+  font-family: Arial, Tahoma, sans-serif;
 }
 
 .video-section {
-  height: 400vh;
+  height: 800vh;
   position: relative;
 }
 
@@ -29,9 +29,10 @@ body {
   height: 100vh;
   width: 100%;
   overflow: hidden;
+  background: #111;
 }
 
-video {
+#scrollVideo {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -41,44 +42,120 @@ video {
   position: absolute;
   inset: 0;
   display: flex;
+  justify-content: flex-end;
   align-items: center;
-  justify-content: center;
-  padding: 30px;
+  padding: 4vw;
   pointer-events: none;
 }
 
 .story-text {
-  width: min(850px, 90%);
+  position: absolute;
+  right: 5%;
+  top: 50%;
+  transform: translateY(calc(-50% + 25px));
+  width: min(600px, 55%);
+  max-height: 85vh;
+  overflow-y: auto;
   padding: 30px;
   color: white;
-  text-align: center;
-  background: rgba(0, 0, 0, 0.65);
-  border-radius: 18px;
-  backdrop-filter: blur(6px);
+  text-align: left;
+  background: rgba(8, 18, 35, 0.78);
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 20px;
+  backdrop-filter: blur(8px);
   opacity: 0;
-  transform: translateY(25px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
+  visibility: hidden;
+  transition: opacity .45s ease, transform .45s ease;
 }
 
 .story-text.active {
   opacity: 1;
-  transform: translateY(0);
+  visibility: visible;
+  transform: translateY(-50%);
 }
 
 .story-text h1 {
-  font-size: clamp(25px, 4vw, 42px);
-  margin-bottom: 18px;
+  font-size: clamp(25px, 3vw, 39px);
+  line-height: 1.4;
   color: #ffd88a;
+  margin-bottom: 18px;
 }
 
 .story-text p {
-  font-size: clamp(17px, 2vw, 23px);
+  font-size: clamp(16px, 1.5vw, 21px);
+  line-height: 1.9;
+  margin-bottom: 12px;
+}
+
+.story-text ul {
+  padding-left: 25px;
+  font-size: clamp(15px, 1.4vw, 19px);
   line-height: 1.8;
 }
 
-@media (max-width: 600px) {
+.story-text li {
+  margin-bottom: 8px;
+}
+
+.story-text .subheading {
+  color: #ffd88a;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.chart-image {
+  display: block;
+  width: 100%;
+  max-height: 48vh;
+  object-fit: contain;
+  border-radius: 12px;
+  background: #fff;
+  margin: 12px auto;
+}
+
+.source {
+  color: #ddd;
+  font-size: 13px !important;
+  margin-top: 12px;
+}
+
+.progress-label {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  font-size: 13px;
+  background: rgba(0,0,0,.55);
+  padding: 8px 16px;
+  border-radius: 30px;
+  z-index: 5;
+}
+
+@media (max-width: 700px) {
+  .text-overlay {
+    justify-content: center;
+    padding: 15px;
+  }
+
   .story-text {
-    padding: 22px;
+    right: auto;
+    width: 92%;
+    max-height: 80vh;
+    padding: 20px;
+  }
+
+  .story-text h1 {
+    font-size: 25px;
+  }
+
+  .story-text p,
+  .story-text ul {
+    font-size: 16px;
+  }
+
+  .chart-image {
+    max-height: 35vh;
   }
 }
 </style>
@@ -104,44 +181,138 @@ video {
 
     <div class="text-overlay">
 
+      <!-- ช่วงที่ 1 -->
       <div class="story-text active">
-        <h1>ความปลอดภัยในการทำงาน</h1>
+        <h1>ความปลอดภัยในการทำงาน คืออะไร และสำคัญอย่างไร</h1>
         <p>
-          ไม่ใช่แค่การป้องกันอุบัติเหตุ
-          แต่คือการดูแลชีวิตและสุขภาพของทุกคน
-          ในสถานที่ทำงาน
-        </p>
-      </div>
-
-      <div class="story-text">
-        <h1>ความหมายตามกฎหมาย</h1>
-        <p>
-          ตาม พ.ร.บ. ความปลอดภัย อาชีวอนามัย
-          และสภาพแวดล้อมในการทำงาน พ.ศ. 2554
-          นายจ้างมีหน้าที่จัดสถานที่ทำงาน
-          ให้ปลอดภัยและถูกสุขลักษณะ
-        </p>
-      </div>
-
-      <div class="story-text">
-        <h1>ความปลอดภัยครอบคลุมอะไรบ้าง?</h1>
-        <p>
-          ครอบคลุมทั้งชีวิต ร่างกาย จิตใจ
+          ความปลอดภัยในการทำงาน คือ การดูแลและจัดสภาพแวดล้อม
+          ในสถานที่ทำงานให้ปลอดภัย ถูกสุขลักษณะ
+          และลดความเสี่ยงจากอันตรายต่าง ๆ
+          เพื่อปกป้องชีวิต ร่างกาย จิตใจ
           และสุขภาพอนามัยของลูกจ้าง
         </p>
       </div>
 
+      <!-- ช่วงที่ 2 -->
       <div class="story-text">
-        <h1>ความปลอดภัยเป็นเรื่องของทุกคน</h1>
+        <h1>กฎหมายไทยเกี่ยวกับความปลอดภัยในการทำงาน</h1>
         <p>
-          การคุกคามทางเพศในที่ทำงาน
-          จึงไม่ใช่เพียงเรื่องมารยาท
-          แต่เป็นประเด็นด้านความปลอดภัย
-          ที่ไม่ควรมองข้าม
+          พระราชบัญญัติความปลอดภัย อาชีวอนามัย
+          และสภาพแวดล้อมในการทำงาน พ.ศ. 2554
+          กำหนดให้นายจ้างจัดสภาพแวดล้อมการทำงาน
+          ให้ปลอดภัยและถูกสุขลักษณะ
+          เพื่อไม่ให้ลูกจ้างได้รับอันตรายต่อชีวิต
+          ร่างกาย จิตใจ และสุขภาพอนามัย
+        </p>
+      </div>
+
+      <!-- ช่วงที่ 3 -->
+      <div class="story-text">
+        <h1>ความปลอดภัยครอบคลุมถึงจิตใจ</h1>
+        <p>
+          คำว่า “จิตใจ” แสดงให้เห็นว่า
+          ความปลอดภัยในการทำงานไม่ได้จำกัดอยู่เพียง
+          การป้องกันอุบัติเหตุหรืออันตรายทางร่างกาย
+          แต่ยังรวมถึงการป้องกันการคุกคามทางเพศ
+          ซึ่งส่งผลต่อความรู้สึกและสุขภาพจิตของลูกจ้างด้วย
+        </p>
+        <p>
+          ดังนั้น การคุกคามทางเพศจึงเป็นเรื่อง
+          ความปลอดภัยในการทำงาน ไม่ใช่เพียงเรื่องมารยาท
+        </p>
+      </div>
+
+      <!-- ช่วงที่ 4 -->
+      <div class="story-text">
+        <h1>หน่วยงานและมาตรฐานสากล</h1>
+        <p>
+          กรมสวัสดิการและคุ้มครองแรงงาน
+          เป็นหน่วยงานหลักที่ดูแลด้านความปลอดภัย
+          ในการทำงานของประเทศไทย
+        </p>
+        <p>
+          ในระดับสากล ประเทศไทยได้ให้สัตยาบัน
+          อนุสัญญาองค์การแรงงานระหว่างประเทศ (ILO)
+          ฉบับที่ 187 ว่าด้วยกรอบส่งเสริมความปลอดภัย
+          และอาชีวอนามัย
+        </p>
+      </div>
+
+      <!-- ช่วงที่ 5 -->
+      <div class="story-text">
+        <h1>การล่วงละเมิด/คุกคามทางเพศ: นิยามและประเภท</h1>
+        <p>
+          การคุกคามทางเพศเป็นพฤติกรรมที่ละเมิดสิทธิ
+          ศักดิ์ศรี และความปลอดภัยของผู้อื่น
+          สามารถเกิดขึ้นได้ทั้งในสถานที่ทำงาน
+          และผ่านช่องทางออนไลน์
+        </p>
+      </div>
+
+      <!-- ช่วงที่ 6 -->
+      <div class="story-text">
+        <h1>นิยามตามกฎหมาย</h1>
+        <p>
+          ประมวลกฎหมายอาญา มาตรา 1 (19)
+          ให้นิยามการคุกคามทางเพศว่าเป็นการกระทำ
+          ทางกาย วาจา ท่าทาง การติดต่อสื่อสาร
+          การเฝ้าดู ติดตาม หรือผ่านระบบออนไลน์
+          ที่มีลักษณะส่อไปทางเพศ
+        </p>
+        <p>
+          และน่าจะทำให้ผู้อื่นรำคาญ อับอาย
+          ถูกเหยียดหยาม หวาดกลัว
+          หรือไม่ปลอดภัยทางเพศ
+        </p>
+      </div>
+
+      <!-- ช่วงที่ 7 -->
+      <div class="story-text">
+        <h1>การคุกคามทางเพศ 5 ประเภท</h1>
+        <ul>
+          <li><b>ทางกาย:</b> กอด จูบ ลูบคลำ แตะเนื้อต้องตัว</li>
+          <li><b>ทางวาจา:</b> แซวส่อทางเพศ ล้อรูปร่าง แทะโลม</li>
+          <li><b>ไม่ใช้วาจา:</b> จ้องมอง ส่งภาพหรือข้อความทางเพศ ติดตามรังควาน</li>
+          <li><b>แลกเปลี่ยนผลประโยชน์:</b> ใช้ตำแหน่งกดดัน เช่น ให้ผลประเมินหรือความก้าวหน้าแลกกับความสัมพันธ์</li>
+          <li><b>สภาพแวดล้อมที่เป็นปฏิปักษ์:</b> บรรยากาศที่เต็มไปด้วยมุกและพฤติกรรมทางเพศจนคนทำงานอึดอัด</li>
+        </ul>
+      </div>
+
+      <!-- ช่วงที่ 8 -->
+      <div class="story-text">
+        <h1>ผลสำรวจการคุกคามทางเพศในที่ทำงาน</h1>
+        <img
+          class="chart-image"
+          src="chart.png"
+          alt="กราฟแท่งแสดงสถิติการคุกคามทางเพศในที่ทำงาน"
+        >
+        <p>
+          จากการสำรวจกลุ่มพนักงานหญิงในหน่วยงานต่าง ๆ
+          พบว่าประสบการณ์การคุกคามทางเพศที่พบมากที่สุด
+          คือการถูกใช้วาจาลามก รองลงมาคือการถูกลวนลาม
+          หรือแตะเนื้อต้องตัว
+        </p>
+        <p>
+          สะท้อนให้เห็นว่าการคุกคามทางเพศเกิดขึ้นได้
+          ทั้งผ่านคำพูดและการกระทำ ซึ่งส่งผลต่อความรู้สึก
+          ความมั่นใจ และความปลอดภัยในการทำงาน
+        </p>
+        <p class="source">
+          ที่มา: ม.มหิดล (2568) อ้างใน Thai PBS
+        </p>
+        <p class="subheading">
+          ทุกคนควรได้รับความเคารพ และมีสิทธิทำงาน
+          ในสภาพแวดล้อมที่ปลอดภัย
+          โดยปราศจากการคุกคามทางเพศ
         </p>
       </div>
 
     </div>
+
+    <div class="progress-label" id="progressLabel">
+      ช่วงที่ 1 / 8
+    </div>
+
   </div>
 </section>
 
@@ -149,8 +320,9 @@ video {
 const video = document.getElementById("scrollVideo");
 const section = document.querySelector(".video-section");
 const texts = document.querySelectorAll(".story-text");
+const label = document.getElementById("progressLabel");
 
-video.pause();
+let ticking = false;
 
 function updatePage() {
   const rect = section.getBoundingClientRect();
@@ -161,10 +333,6 @@ function updatePage() {
     Math.max(0, -rect.top / scrollable)
   );
 
-  if (Number.isFinite(video.duration) && video.duration > 0) {
-    video.currentTime = progress * video.duration;
-  }
-
   const index = Math.min(
     texts.length - 1,
     Math.floor(progress * texts.length)
@@ -173,9 +341,21 @@ function updatePage() {
   texts.forEach((item, i) => {
     item.classList.toggle("active", i === index);
   });
-}
 
-let ticking = false;
+  label.textContent = `ช่วงที่ ${index + 1} / ${texts.length}`;
+
+  if (
+    Number.isFinite(video.duration) &&
+    video.duration > 0 &&
+    video.readyState >= 1
+  ) {
+    const targetTime = progress * video.duration;
+
+    if (Math.abs(video.currentTime - targetTime) > 0.15) {
+      video.currentTime = targetTime;
+    }
+  }
+}
 
 function requestUpdate() {
   if (!ticking) {
