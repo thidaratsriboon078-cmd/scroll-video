@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Scroll Video</title>
+<title>ความปลอดภัยในการทำงาน</title>
 
 <style>
 * {
@@ -15,6 +15,7 @@
 
 body {
   background: #000;
+  font-family: Arial, sans-serif;
 }
 
 .video-section {
@@ -35,6 +36,51 @@ video {
   height: 100%;
   object-fit: cover;
 }
+
+.text-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  pointer-events: none;
+}
+
+.story-text {
+  width: min(850px, 90%);
+  padding: 30px;
+  color: white;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.65);
+  border-radius: 18px;
+  backdrop-filter: blur(6px);
+  opacity: 0;
+  transform: translateY(25px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.story-text.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.story-text h1 {
+  font-size: clamp(25px, 4vw, 42px);
+  margin-bottom: 18px;
+  color: #ffd88a;
+}
+
+.story-text p {
+  font-size: clamp(17px, 2vw, 23px);
+  line-height: 1.8;
+}
+
+@media (max-width: 600px) {
+  .story-text {
+    padding: 22px;
+  }
+}
 </style>
 </head>
 
@@ -42,6 +88,7 @@ video {
 
 <section class="video-section">
   <div class="video-sticky">
+
     <video
       id="scrollVideo"
       muted
@@ -54,36 +101,97 @@ video {
         type="video/mp4"
       >
     </video>
+
+    <div class="text-overlay">
+
+      <div class="story-text active">
+        <h1>ความปลอดภัยในการทำงาน</h1>
+        <p>
+          ไม่ใช่แค่การป้องกันอุบัติเหตุ
+          แต่คือการดูแลชีวิตและสุขภาพของทุกคน
+          ในสถานที่ทำงาน
+        </p>
+      </div>
+
+      <div class="story-text">
+        <h1>ความหมายตามกฎหมาย</h1>
+        <p>
+          ตาม พ.ร.บ. ความปลอดภัย อาชีวอนามัย
+          และสภาพแวดล้อมในการทำงาน พ.ศ. 2554
+          นายจ้างมีหน้าที่จัดสถานที่ทำงาน
+          ให้ปลอดภัยและถูกสุขลักษณะ
+        </p>
+      </div>
+
+      <div class="story-text">
+        <h1>ความปลอดภัยครอบคลุมอะไรบ้าง?</h1>
+        <p>
+          ครอบคลุมทั้งชีวิต ร่างกาย จิตใจ
+          และสุขภาพอนามัยของลูกจ้าง
+        </p>
+      </div>
+
+      <div class="story-text">
+        <h1>ความปลอดภัยเป็นเรื่องของทุกคน</h1>
+        <p>
+          การคุกคามทางเพศในที่ทำงาน
+          จึงไม่ใช่เพียงเรื่องมารยาท
+          แต่เป็นประเด็นด้านความปลอดภัย
+          ที่ไม่ควรมองข้าม
+        </p>
+      </div>
+
+    </div>
   </div>
 </section>
 
 <script>
 const video = document.getElementById("scrollVideo");
+const section = document.querySelector(".video-section");
+const texts = document.querySelectorAll(".story-text");
 
 video.pause();
 
-video.addEventListener("loadedmetadata", () => {
-  video.pause();
+function updatePage() {
+  const rect = section.getBoundingClientRect();
+  const scrollable = section.offsetHeight - window.innerHeight;
 
-  function updateVideo() {
-    const section = document.querySelector(".video-section");
-    const rect = section.getBoundingClientRect();
+  const progress = Math.min(
+    1,
+    Math.max(0, -rect.top / scrollable)
+  );
 
-    const scrollable = section.offsetHeight - window.innerHeight;
-    const progress = Math.min(
-      1,
-      Math.max(0, -rect.top / scrollable)
-    );
-
-    if (Number.isFinite(video.duration)) {
-      video.currentTime = progress * video.duration;
-    }
+  if (Number.isFinite(video.duration) && video.duration > 0) {
+    video.currentTime = progress * video.duration;
   }
 
-  window.addEventListener("scroll", updateVideo);
-  window.addEventListener("resize", updateVideo);
-  updateVideo();
-});
+  const index = Math.min(
+    texts.length - 1,
+    Math.floor(progress * texts.length)
+  );
+
+  texts.forEach((item, i) => {
+    item.classList.toggle("active", i === index);
+  });
+}
+
+let ticking = false;
+
+function requestUpdate() {
+  if (!ticking) {
+    requestAnimationFrame(() => {
+      updatePage();
+      ticking = false;
+    });
+    ticking = true;
+  }
+}
+
+video.addEventListener("loadedmetadata", updatePage);
+window.addEventListener("scroll", requestUpdate);
+window.addEventListener("resize", requestUpdate);
+
+updatePage();
 </script>
 
 </body>
